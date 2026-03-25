@@ -1,0 +1,45 @@
+services:
+  debian-13-slim:
+    image: ai-workspace:debian-13-slim
+    build:
+      context: .
+      args:
+        BASE_IMAGE: debian:13-slim
+    ports:
+      - "1337:1337"
+
+  debian-12-slim:
+    image: ai-workspace:debian-12-slim
+    build:
+      context: .
+      args:
+        BASE_IMAGE: debian:12-slim
+    ports:
+      - "1338:1337"
+
+  ubuntu-24-04:
+    image: ai-workspace:ubuntu-24-04
+    build:
+      context: .
+      args:
+        BASE_IMAGE: ubuntu:24.04
+    ports:
+      - "1339:1337"
+
+  ubuntu-22-04:
+    image: ai-workspace:ubuntu-22-04
+    build:
+      context: .
+      args:
+        BASE_IMAGE: ubuntu:22.04
+    ports:
+      - "1340:1337"
+
+  amazonlinux-2023:
+    image: ai-workspace:amazonlinux-2023
+    build:
+      context: .
+      args:
+        BASE_IMAGE: amazonlinux:2023
+    ports:
+      - "1341:1337"
