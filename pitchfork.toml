@@ -1,0 +1,16 @@
+#:schema https://pitchfork.jdx.dev/schema.json
+
+[daemons.vscode]
+run = "code serve-web --accept-server-license-terms --without-connection-token --host 0.0.0.0 --port 1337"
+boot_start = true
+retry = true
+
+[daemons.zellij]
+run = "cd; env SHELL=/bin/bash /usr/local/share/mise/installs/zellij/latest/zellij web --ip 127.0.0.1 --port 8083"
+boot_start = true
+retry = true
+
+[daemons.zellij-proxy]
+run = "socat TCP-LISTEN:8082,fork,reuseaddr TCP:127.0.0.1:8083"
+boot_start = true
+retry = true

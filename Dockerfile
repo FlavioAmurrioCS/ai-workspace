@@ -20,25 +20,26 @@ RUN \
     --mount=type=bind,source=setup.sh,target=setup.sh \
     : \
     && sh -x setup.sh "${DEVENV_GROUP_ID}" "${DEVENV_USER_ID}" "${DEVENV_USERNAME}" \
+    && mkdir -p /usr/local/share/mise/installs \
+    && mkdir -p /etc/pitchfork \
+    && chown "${DEVENV_USER_ID}:${DEVENV_GROUP_ID}" -R /usr/local/share/mise \
+    && chown "${DEVENV_USER_ID}:${DEVENV_GROUP_ID}" -R /etc/pitchfork \
     && :
 
 USER "${DEVENV_USERNAME}"
 WORKDIR "/home/${DEVENV_USERNAME}"
-ENV PATH="/home/${DEVENV_USERNAME}/.local/bin:${PATH}"
+ENV PATH="/home/${DEVENV_USERNAME}/.local/share/mise/shims:/home/${DEVENV_USERNAME}/.local/bin:${PATH}"
 
-RUN mkdir -p "/home/${DEVENV_USERNAME}/.local/bin"
+RUN \
+    : \
+    && mkdir -p "/home/${DEVENV_USERNAME}/.local/bin" \
+    && :
 
 ################################################################################
 FROM base_image AS downloader
 
 RUN curl https://mise.run | sh
 RUN mise --help
-
-RUN curl -fsSL https://opencode.ai/install | bash
-RUN "/home/${DEVENV_USERNAME}/.opencode/bin/opencode" --help
-
-RUN curl -fsSL https://claude.ai/install.sh | bash
-RUN claude --help
 
 ARG TARGETARCH
 ARG VSCODE_BASE_URL="https://vscode.download.prss.microsoft.com/dbazure/download/stable/07ff9d6178ede9a1bd12ad3399074d726ebe6e43"
@@ -55,22 +56,34 @@ RUN code serve-web --help
 
 ################################################################################
 FROM base_image AS final_image
-COPY --from=downloader "/home/${DEVENV_USERNAME}/.local/bin/mise"                   "/home/${DEVENV_USERNAME}/.local/bin/mise"
-COPY --from=downloader "/home/${DEVENV_USERNAME}/.opencode/bin/opencode"            "/home/${DEVENV_USERNAME}/.local/bin/opencode"
-COPY --from=downloader "/home/${DEVENV_USERNAME}/.local/share/claude/versions"/*    "/home/${DEVENV_USERNAME}/.local/bin/claude"
+
+# ARG does not cross stage boundaries, so it must be redeclared here.
+ARG DEVENV_USERNAME=devuser
+
 COPY --from=downloader "/home/${DEVENV_USERNAME}/.local/bin/code"                   "/home/${DEVENV_USERNAME}/.local/bin/code"
-RUN echo 'eval "$(mise activate bash)"' >> ~/.bashrc
+COPY --from=downloader "/home/${DEVENV_USERNAME}/.local/bin/mise"                   "/home/${DEVENV_USERNAME}/.local/bin/mise"
+
+RUN \
+    : \
+    && printf -- 'eval "$(mise activate bash --shims)"\neval "$(mise activate bash)"' >> ~/.bashrc \
+    && mise install --system pitchfork zellij \
+    && mise use --global pitchfork zellij \
+    && mise reshim \
+    && mkdir -p ~/.config/zellij \
+    && zellij setup --dump-config > ~/.config/zellij/config.kdl \
+    && :
+
+COPY --chown=${DEVENV_USERNAME} pitchfork.toml           "/etc/pitchfork/config.toml"
 
 ENTRYPOINT [ "dumb-init", "--" ]
-CMD [ "code", "serve-web" , "--accept-server-license-terms", "--without-connection-token", "--host", "0.0.0.0", "--port", "1337" ]
+CMD [ "/usr/local/share/mise/installs/pitchfork/latest/pitchfork", "supervisor", "run", "--boot" ]
 
 RUN : \
     && mise --help \
-    && opencode --help \
-    && claude --help \
     && sudo --help \
     && git --help \
     && tmux -V \
     && code --version \
     && dumb-init --help \
+    && pitchfork --version \
     && : || exit 1

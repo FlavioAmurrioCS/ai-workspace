@@ -20,6 +20,8 @@ if command -v apt-get >/dev/null 2>&1; then
     ca-certificates \
     curl \
     git \
+    procps \
+    socat \
     sudo \
     tmux \
     && rm -rf /var/lib/apt/lists/* \
@@ -30,7 +32,9 @@ if command -v apt-get >/dev/null 2>&1; then
     dnf install -y \
     ca-certificates \
     git \
+    procps-ng \
     shadow-utils \
+    socat \
     sudo \
     tar \
     tmux \
@@ -42,7 +46,9 @@ if command -v apt-get >/dev/null 2>&1; then
     yum install -y \
     ca-certificates \
     git \
+    procps-ng \
     shadow-utils \
+    socat \
     sudo \
     tar \
     tmux \

@@ -20,6 +20,7 @@ import typer
 @dataclass
 class CLIApp:
     container_cmd: str="container"
+    # container_cmd: str="docker"
     container_name: str="devcon"
     user_name: str= getpass.getuser()
     user_id: int = os.getuid()
@@ -38,20 +39,22 @@ class CLIApp:
         )
 
         subprocess.run(build_cmd, check=True)
+        container_home= f"/home/{self.user_name}"
+        host_home= os.path.expanduser("~")
         run_cmd = (
             self.container_cmd,
             "run",
-            "--name",
-            self.container_name,
+            f"--name={self.container_name}",
             "--detach",
             "--rm",
-            "-p",
-            "1337:1337",
-            "-v",
-            f"{os.path.expanduser('~')}/dev:/home/{self.user_name}/dev",
+            "--publish=127.0.0.1:1337:1337",
+            "--publish=127.0.0.1:8082:8082",
+            f"--volume={host_home}/dev:{container_home}/dev",
+            f"--volume={host_home}/opt/mounts/devcon-mise:{container_home}/.local/share/mise",
+            f"--volume={host_home}/opt/mounts/devcon-claude:{container_home}/.claude",
             "ai-workspace:latest",
         )
-        subprocess.run(run_cmd, check=True)
+        os.execlp(run_cmd[0], *run_cmd)
 
     def stop(self) -> None:
         cmd=(
@@ -69,6 +72,7 @@ class CLIApp:
         )
         result = subprocess.run(cmd, check=True, capture_output=True)
         print_json(result.stdout.decode())
+
     def enter(self) -> None:
         cmd=(
             self.container_cmd,
@@ -99,8 +103,3 @@ if __name__ == "__main__":
     cli_app = CLIApp()
     app = cli_app.get_app()
     app()
-
-# start
-# stop
-# status
-# enter
