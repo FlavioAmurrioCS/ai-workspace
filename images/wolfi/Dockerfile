@@ -31,6 +31,8 @@ RUN --mount=type=cache,target=${APK_CACHE_DIR},sharing=locked \
     && apk add \
         # Login shell for the user; devcon-start is a bash script.
         bash \
+        # Many install scripts and docs assume the curl command.
+        curl \
         # PID 1: forwards stop signals and reaps zombie processes.
         dumb-init \
         # Source control; also expected by VS Code and mise backends.
@@ -50,6 +52,8 @@ RUN --mount=type=cache,target=${APK_CACHE_DIR},sharing=locked \
         posix-libc-utils \
         # Exposes zellij web (localhost-only) on all interfaces; see pitchfork config.
         socat \
+        # Time zone data, so TZ works instead of silently falling back to UTC.
+        tzdata \
     && :
 
 COPY --from=downloader /usr/local/bin/mise /usr/local/bin/mise
