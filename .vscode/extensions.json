@@ -4,6 +4,8 @@
     "golang.go",
     "tombi-toml.tombi",
     "exiasr.hadolint",
-    "owenlamont.ryl"
+    "owenlamont.ryl",
+    "charliermarsh.ruff",
+    "astral-sh.ty"
   ]
 }

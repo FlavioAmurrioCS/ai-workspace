@@ -1,0 +1,25 @@
+#:schema https://mise.jdx.dev/schema/mise.json
+# Tools used by the hooks in .pre-commit-config.yaml (all `language: system`).
+# Hooks also need `uv` (ty, uv-*, pip-compile) and `node` (oxfmt, oxlint),
+# which stay in .config/mise.toml because they're used beyond pre-commit.
+
+[tools]
+"github:akiomik/mado" = "0.3.2"
+"github:ewhauser/shuck" = "0.2.3"
+"github:owenlamont/ryl" = "0.23.0"
+"github:reteps/dockerfmt" = "0.5.4"
+"pypi:check-jsonschema" = "0.38.2"
+"pypi:pre-commit-hooks" = "6.0.0"
+actionlint = "1.7.12"
+hadolint = "2.15.1"
+oxfmt = "0.71.0"
+oxlint = "1.84.0"
+pre-commit = "4.6.2"
+prek = "0.5.4"
+ruff = "0.16.10"
+rumdl = "0.2.78"
+shellcheck = "0.11.0"
+shfmt = "3.14.1"
+tombi = "1.7.1"
+vale = "3.24.0"
+zizmor = "1.30.1"

@@ -1,12 +1,12 @@
 #!/usr/bin/env -S uv run --script
 # /// script
-# requires-python = ">=3.10"
+# requires-python = ">=3.11"
 # dependencies = [
 #     "rich",
 #     "typer-slim",
 # ]
 # ///
-
+# flake8: noqa: S603,S606
 import getpass
 import os
 import subprocess
@@ -89,7 +89,7 @@ class CLIApp:
 
     def get_app(self) -> typer.Typer:
         app = typer.Typer()
-        app.callback()(self.__init__)
+        app.callback()(self.__init__)  # ty: ignore[invalid-argument-type]
 
         app.command()(self.start)
         app.command()(self.stop)

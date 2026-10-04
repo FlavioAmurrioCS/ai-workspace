@@ -1,5 +1,9 @@
 #:schema https://www.schemastore.org/tombi.json
 
+[files]
+# Third-party repos (git submodules).
+exclude = ["external/**"]
+
 [lint.rules]
 tables-out-of-order = "off"
 

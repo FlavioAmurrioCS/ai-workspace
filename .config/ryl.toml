@@ -1,6 +1,9 @@
 #:schema https://www.schemastore.org/ryl.json
 # .ryl.toml, tuned for Prettier
 
+# Third-party content (submodules, vendored Vale styles).
+ignore = ["external/", "styles/"]
+
 [rules]
 brackets = "enable"
 colons = "enable"

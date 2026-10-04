@@ -1,0 +1,15 @@
+[submodule "external/vscode-docs"]
+	path = external/vscode-docs
+	url = https://github.com/microsoft/vscode-docs
+	branch = main
+	shallow = true
+[submodule "external/devcontainers-spec"]
+	path = external/devcontainers-spec
+	url = https://github.com/devcontainers/spec
+	branch = main
+	shallow = true
+[submodule "external/mise"]
+	path = external/mise
+	url = https://github.com/jdx/mise
+	branch = main
+	shallow = true
