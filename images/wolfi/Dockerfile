@@ -93,6 +93,7 @@ ENV \
 # Pre-create volume mount points so named volumes inherit devuser ownership.
 RUN : \
     && mkdir -p "/home/${DEVENV_USERNAME}/.vscode" \
+    && mkdir -p "/home/${DEVENV_USERNAME}/.vscode-server" \
     && mkdir -p "/home/${DEVENV_USERNAME}/.local/share/zellij" \
     && mkdir -p "/home/${DEVENV_USERNAME}/.local/share/mise" \
     && mkdir -p "/home/${DEVENV_USERNAME}/.local/state/mise" \
@@ -128,6 +129,7 @@ LABEL devcontainer.metadata='[{ \
         {"type": "volume", "source": "devcon-zellij", "target": "'"${DEVCON_HOME}"'/.local/share/zellij"}, \
         {"type": "volume", "source": "devcon-zellij-config", "target": "'"${DEVCON_HOME}"'/.config/zellij"}, \
         {"type": "volume", "source": "devcon-vscode", "target": "'"${DEVCON_HOME}"'/.vscode"}, \
+        {"type": "volume", "source": "devcon-vscode-server", "target": "'"${DEVCON_HOME}"'/.vscode-server"}, \
         "source=${localEnv:HOME}/.config/mise/conf.d,target='"${DEVCON_HOME}"'/.config/mise/conf.d,type=bind,readonly" \
     ] \
 }]'

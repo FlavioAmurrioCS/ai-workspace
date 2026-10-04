@@ -142,6 +142,7 @@ The host's own `~/.config/mise/config.toml` stays host-only (not mounted).
 | `~/.claude` (incl. `.claude.json`) | `devcon-claude` volume | Claude Code login, settings, sessions |
 | `~/.local/share/opencode` | `devcon-opencode` volume | opencode login (`auth.json`), sessions DB |
 | `~/.vscode` | `devcon-vscode` volume | browser VS Code server (~640 MB re-download) |
+| `~/.vscode-server` | `devcon-vscode-server` volume | desktop VS Code (Dev Containers) server and extensions |
 | `~/.local/share/zellij` | `devcon-zellij` volume | zellij web tokens |
 | `~/.config/mise` | `devcon-mise-config` volume | container-only tool additions |
 | `~/.config/mise/conf.d` | host `~/.config/mise/conf.d` (read-only bind) | nothing: it lives on the host. **Must exist on the host**, or Dev Containers can't start the container |

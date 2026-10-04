@@ -59,6 +59,7 @@ services:
     # Same volumes as the image's devcontainer.metadata label (images/wolfi/Dockerfile).
     volumes:
       - devcon-vscode:/home/devuser/.vscode
+      - devcon-vscode-server:/home/devuser/.vscode-server
       - devcon-zellij:/home/devuser/.local/share/zellij
       - devcon-zellij-config:/home/devuser/.config/zellij
       - devcon-mise:/home/devuser/.local/share/mise
@@ -76,6 +77,7 @@ services:
 # exact names.
 volumes:
   devcon-vscode: { name: devcon-vscode }
+  devcon-vscode-server: { name: devcon-vscode-server }
   devcon-zellij: { name: devcon-zellij }
   devcon-zellij-config: { name: devcon-zellij-config }
   devcon-mise: { name: devcon-mise }
