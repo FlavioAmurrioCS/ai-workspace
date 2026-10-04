@@ -114,6 +114,9 @@ RUN : \
 # every container shares the same tools, logins and ~/dev.
 # updateRemoteUserUID=false: on Linux hosts Dev Containers would otherwise
 # change devuser's UID, breaking ownership of the shared volumes.
+# portsAttributes: the VS Code server, agent host and extension host listen on
+# random high ports, which filled VS Code's Ports view, so ports 10000+ are not
+# auto-forwarded. Projects can override "10000-65535" in their devcontainer.json.
 # Single quotes: no \" escaping (and no variable expansion), so the home dir is
 # spliced in by briefly closing the quotes: '"${DEVCON_HOME}"'.
 ARG DEVCON_HOME=/home/${DEVENV_USERNAME}
@@ -122,6 +125,11 @@ LABEL devcontainer.metadata='[{ \
     "overrideCommand": false, \
     "updateRemoteUserUID": false, \
     "customizations": {"vscode": {"extensions": ["hverlin.mise-vscode"]}}, \
+    "portsAttributes": { \
+        "1337": {"label": "VS Code (browser)", "onAutoForward": "notify"}, \
+        "8082": {"label": "zellij web", "onAutoForward": "notify"}, \
+        "10000-65535": {"onAutoForward": "ignore"} \
+    }, \
     "mounts": [ \
         {"type": "volume", "source": "devcon-dev", "target": "'"${DEVCON_HOME}"'/dev"}, \
         {"type": "volume", "source": "devcon-mise", "target": "'"${DEVCON_HOME}"'/.local/share/mise"}, \

@@ -62,6 +62,10 @@ mise VS Code extension. Any project can use it with just:
   `shutdownAction`). The compose container keeps running.
 - No ports are published. VS Code forwards them when needed. Add
   `"containerEnv": {"DEVCON_SERVICES": "..."}` to start services there.
+- VS Code skips auto-forwarding ports 10000 and up (its own server processes
+  use random high ports) and labels 1337 and 8082. To forward high ports in a
+  project, set `"portsAttributes": {"10000-65535": {"onAutoForward":
+  "notify"}}` in its `devcontainer.json`.
 - Build the image first (`docker compose build wolfi`); Dev Containers doesn't
   build it.
 - Don't mix `docker compose up` and VS Code **Reopen in Container** on *this*
