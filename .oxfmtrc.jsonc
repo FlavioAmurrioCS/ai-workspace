@@ -1,0 +1,15 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oxc-project/oxc/refs/heads/main/npm/oxfmt/configuration_schema.json",
+  "ignorePatterns": [],
+  "overrides": [
+    {
+      "files": [
+        "*.json",
+        "*.jsonc"
+      ],
+      "options": {
+        "printWidth": 1
+      }
+    }
+  ]
+}

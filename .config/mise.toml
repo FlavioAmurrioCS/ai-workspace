@@ -1,0 +1,37 @@
+#:schema https://mise.jdx.dev/schema/mise.json
+
+[env]
+# SKIP = "sourcemeta-jsonschema-lint,check-jsonschema,check-metaschema"
+
+[tools]
+"github:akiomik/mado" = "0.3.2"
+"github:ewhauser/shuck" = "0.2.3"
+"github:owenlamont/ryl" = "0.22.0"
+"github:reteps/dockerfmt" = "0.5.4"
+"pypi:check-jsonschema" = "0.38.2"
+"pypi:pre-commit-hooks" = "6.0.0"
+"pypi:uv-to-pipfile" = "0.0.7"
+actionlint = "1.7.12"
+hadolint = "2.15.1"
+jsonschema = "17.0.0"
+# node = "24.21.0"
+oxfmt = "0.71.0"
+oxlint = "1.84.0"
+# pre-commit = "4.6.2"
+prek = "0.5.4"
+ruff = "0.16.10"
+rumdl = "0.2.78"
+shellcheck = "0.11.0"
+shfmt = "3.14.1"
+tombi = "1.7.1"
+# uv = "0.12.19"
+vale = "3.24.0"
+zizmor = "1.30.1"
+
+devcontainer-cli = "0.89.0"
+docker-cli = "29.8.2"
+go = "1.27.1"
+node = "26.10.0"
+pre-commit = "4.6.2"
+python = "3.14.8"
+uv = "0.12.23"

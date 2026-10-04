@@ -1,0 +1,29 @@
+#:schema https://pitchfork.jdx.dev/schema.json
+
+# Nothing starts at boot by default: `devcon-start` starts the groups listed in
+# $DEVCON_SERVICES (e.g. "vscode zellij"). Start more any time with
+# `pitchfork start --group <name>`.
+
+[groups.vscode]
+daemons = ["vscode"]
+
+# Requires `zellij` in the user's mise config (~/.config/mise/config.toml), so
+# the web server and `zellij attach` in a terminal use the same version.
+[groups.zellij]
+daemons = ["zellij", "zellij-proxy"]
+
+# vscode-cli is installed on first start (into the mise volume), not in the image.
+[daemons.vscode]
+run = "mise exec vscode-cli@1.140.0 -- code serve-web --accept-server-license-terms --without-connection-token --host 0.0.0.0 --port 1337"
+ready_port = 1337
+retry = true
+
+# zellij only serves plain HTTP on 127.0.0.1 (other addresses require a TLS
+# cert), so socat exposes it on all interfaces at 8082.
+[daemons.zellij]
+run = "cd; env SHELL=/bin/bash zellij web --ip 127.0.0.1 --port 8083"
+retry = true
+
+[daemons.zellij-proxy]
+run = "socat TCP-LISTEN:8082,fork,reuseaddr TCP:127.0.0.1:8083"
+retry = true

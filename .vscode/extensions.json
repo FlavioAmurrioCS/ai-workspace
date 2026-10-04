@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "hverlin.mise-vscode",
+    "golang.go",
+    "tombi-toml.tombi",
+    "exiasr.hadolint",
+    "owenlamont.ryl"
+  ]
+}

@@ -1,0 +1,4 @@
+#:schema https://mise.jdx.dev/schema/mise.json
+
+[tools]
+pitchfork = "2.29.0"

@@ -7,22 +7,22 @@
 # ]
 # ///
 
-from dataclasses import dataclass
 import getpass
 import os
 import subprocess
 import webbrowser
+from dataclasses import dataclass
 
-from rich import print_json
 import typer
+from rich import print_json
 
 
 @dataclass
 class CLIApp:
-    container_cmd: str="container"
+    container_cmd: str = "container"
     # container_cmd: str="docker"
-    container_name: str="devcon"
-    user_name: str= getpass.getuser()
+    container_name: str = "devcon"
+    user_name: str = getpass.getuser()
     user_id: int = os.getuid()
     group_id: int = os.getgid()
 
@@ -39,8 +39,8 @@ class CLIApp:
         )
 
         subprocess.run(build_cmd, check=True)
-        container_home= f"/home/{self.user_name}"
-        host_home= os.path.expanduser("~")
+        container_home = f"/home/{self.user_name}"
+        host_home = os.path.expanduser("~")
         run_cmd = (
             self.container_cmd,
             "run",
@@ -57,7 +57,7 @@ class CLIApp:
         os.execlp(run_cmd[0], *run_cmd)
 
     def stop(self) -> None:
-        cmd=(
+        cmd = (
             self.container_cmd,
             "stop",
             self.container_name,
@@ -65,7 +65,7 @@ class CLIApp:
         subprocess.run(cmd, check=True)
 
     def status(self) -> None:
-        cmd=(
+        cmd = (
             self.container_cmd,
             "inspect",
             self.container_name,
@@ -74,7 +74,7 @@ class CLIApp:
         print_json(result.stdout.decode())
 
     def enter(self) -> None:
-        cmd=(
+        cmd = (
             self.container_cmd,
             "exec",
             "-it",

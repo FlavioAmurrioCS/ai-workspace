@@ -1,3 +1,0 @@
-[tools]
-go = "latest"
-"go:github.com/dolmen-go/docker-list-context" = "latest"

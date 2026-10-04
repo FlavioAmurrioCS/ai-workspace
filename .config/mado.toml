@@ -1,0 +1,4 @@
+#:schema https://raw.githubusercontent.com/akiomik/mado/refs/heads/main/pkg/json-schema/mado.json
+
+[lint.md013]
+tables = false
