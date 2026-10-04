@@ -125,6 +125,19 @@ and shares the same pitchfork.
   build, set `MISE_SYSTEM_PACKAGES_SUDO=false`.
 - `pkill -f "<pattern>"` inside `bash -c "<...pattern...>"` kills the shell
   itself.
+- Tools run bare (`tool .`) walk into the `external/` submodules. pre-commit
+  is unaffected (it passes only tracked files). Each tool's config excludes
+  `external/`, except zizmor.
+- shuck 0.2.3 only takes file excludes on the command line, and silently
+  ignores unknown config keys. `.config/shuck.toml` uses
+  `per-file-ignores = { "external/**" = ["ALL"] }` instead: shuck still reads
+  those files but doesn't report anything.
+- zizmor has no path exclude and only honors `.gitignore`. Point it at this
+  repo's own workflow files instead of `.`. Adding `external/` to
+  `.git/info/exclude` would make zizmor skip it, but ripgrep and editor search
+  read that file too and would stop finding the reference docs.
+- Don't use a ripgrep-style `.ignore` file for `external/`: ripgrep, VS Code
+  search and agents' file search would skip the reference docs too.
 
 ## Open items / TODO
 

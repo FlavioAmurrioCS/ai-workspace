@@ -1,0 +1,4 @@
+# shfmt reads its ignore rules from EditorConfig.
+# Third-party repos (git submodules).
+[external/**]
+ignore = true
