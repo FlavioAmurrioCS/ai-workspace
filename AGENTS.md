@@ -29,7 +29,7 @@ from Dev Containers in any project. User-facing docs are in
 ## Commands
 
 ```sh
-docker compose build wolfi              # build ai-workspace:wolfi
+docker compose build wolfi              # build devcon:latest
 docker compose up -d wolfi              # start the long-running container
 docker compose exec wolfi bash -l       # shell in it
 pre-commit run --all-files              # all linters/formatters

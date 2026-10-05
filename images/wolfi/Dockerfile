@@ -110,7 +110,7 @@ RUN : \
     && :
 
 # Dev Containers settings baked into the image, so any project can use just
-# {"image": "ai-workspace:wolfi"}. Volume names match docker-compose.yml, so
+# {"image": "devcon:latest"}. Volume names match docker-compose.yaml, so
 # every container shares the same tools, logins and ~/dev.
 # updateRemoteUserUID=false: on Linux hosts Dev Containers would otherwise
 # change devuser's UID, breaking ownership of the shared volumes.

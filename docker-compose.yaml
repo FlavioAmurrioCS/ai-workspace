@@ -47,7 +47,8 @@ services:
       - 1341:1337
 
   wolfi:
-    image: ai-workspace:wolfi
+    image: devcon:latest
+    container_name: devcon
     build:
       context: images/wolfi
     restart: unless-stopped

@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.base.schema.json",
-  "image": "ai-workspace:wolfi"
+  "image": "devcon:latest"
   // "build": {
   //   "dockerfile": "../images/wolfi/Dockerfile",
   //   "context": "../images/wolfi/"

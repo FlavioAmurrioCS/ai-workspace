@@ -23,7 +23,7 @@ needs network and takes a little longer. Later starts are instant.
 
 | From | How |
 |---|---|
-| Desktop VS Code | **Dev Containers - Attach to Running Container…** → `ai-workspace-wolfi-1`, then open a folder under `~/dev` |
+| Desktop VS Code | **Dev Containers - Attach to Running Container…** → `devcon`, then open a folder under `~/dev` |
 | Terminal | `docker compose exec wolfi bash -l` |
 | Long sessions | inside the container: `zellij attach -c main` (creates `main` if missing). Detach with `Ctrl-o d`. Sessions survive disconnects until the container stops |
 | Browser VS Code | <http://127.0.0.1:1337> (needs the `vscode` service) |
@@ -49,7 +49,7 @@ mise VS Code extension. Any project can use it with just:
 ```jsonc
 // .devcontainer/devcontainer.json
 {
-    "image": "ai-workspace:wolfi",
+    "image": "devcon:latest",
     "overrideCommand": false
 }
 ```

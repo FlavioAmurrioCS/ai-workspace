@@ -62,7 +62,7 @@ file, which can't be a named volume) into the volume directory.
 **One image, any project: `devcontainer.metadata` label.** The Dockerfile
 bakes Dev Containers settings into the image (mounts, `overrideCommand: false`,
 `updateRemoteUserUID: false`, mise extension). A project then only needs
-`{"image": "ai-workspace:wolfi"}`. Tested: `${localEnv:...}` gets expanded in
+`{"image": "devcon:latest"}`. Tested: `${localEnv:...}` gets expanded in
 baked bind mounts, but bind sources must exist on the host, so user config is
 in named volumes instead (`devcon-*-config`). Compose sets `name:` on every
 volume so the compose container and all project containers share the exact

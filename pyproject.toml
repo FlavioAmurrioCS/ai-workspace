@@ -135,7 +135,7 @@ config-path = "none"
 force-single-line = true
 
 [tool.ruff]
-line-length = 100
+line-length = 120
 # Third-party repos (git submodules). `extend-` keeps ruff's default excludes.
 extend-exclude = ["external"]
 
