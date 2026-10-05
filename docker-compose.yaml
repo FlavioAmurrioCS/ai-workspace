@@ -72,6 +72,9 @@ services:
       - devcon-claude:/home/devuser/.claude
       - devcon-opencode:/home/devuser/.local/share/opencode
       - devcon-opencode-config:/home/devuser/.config/opencode
+      # VS Code's own server volume: the shared ~/.vscode-server/bin holds
+      # symlinks into it (from Dev Containers image mode), needed to attach.
+      - vscode:/vscode
 
 # Explicit `name:` (key repeated) because compose otherwise prefixes the project
 # name (ai-workspace_devcon-...); Dev Containers using the image mount these
@@ -88,3 +91,4 @@ volumes:
   devcon-claude: { name: devcon-claude }
   devcon-opencode: { name: devcon-opencode }
   devcon-opencode-config: { name: devcon-opencode-config }
+  vscode: { name: vscode }

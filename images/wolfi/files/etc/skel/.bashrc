@@ -4,6 +4,8 @@
 
 # Git branch and dirty marker for the prompt. Runs once per prompt, with a
 # single git call. Colors use \001/\002 so readline gets the width right.
+# --ignore-submodules=dirty: don't scan submodules' files (13k+ in external/,
+# slow on bind mounts), but still flag a submodule moved to another commit.
 __ps1_git() {
     local line branch oid dirty=""
     while IFS= read -r line; do
@@ -13,7 +15,7 @@ __ps1_git() {
             "#"*) ;;
             *) dirty=$' \001\e[1;93m\002✗' && break ;;
         esac
-    done < <(git --no-optional-locks status --porcelain=v2 --branch 2> /dev/null)
+    done < <(git --no-optional-locks status --porcelain=v2 --branch --ignore-submodules=dirty 2> /dev/null)
     [ -n "${branch}" ] || return 0
     [ "${branch}" = "(detached)" ] && branch=${oid:0:7}
     printf '\001\e[1;96m\002[\001\e[1;91m\002%s%s\001\e[1;96m\002]' "${branch}" "${dirty}"

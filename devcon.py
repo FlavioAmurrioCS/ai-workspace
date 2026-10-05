@@ -81,15 +81,20 @@ class CLIApp:
             {"type": "volume", "src": "devcon-mise", "dst": "/home/devuser/.local/share/mise"},
             {"type": "volume", "src": "devcon-mise-state", "dst": "/home/devuser/.local/state/mise"},
             {"type": "volume", "src": "devcon-mise-config", "dst": "/home/devuser/.config/mise"},
-            {"type": "volume", "src": "devcon-dev", "dst": "/home/devuser/dev"},
+            # {"type": "volume", "src": "devcon-dev", "dst": "/home/devuser/dev"},
             {"type": "volume", "src": "devcon-claude", "dst": "/home/devuser/.claude"},
             {"type": "volume", "src": "devcon-opencode", "dst": "/home/devuser/.local/share/opencode"},
             {"type": "volume", "src": "devcon-opencode-config", "dst": "/home/devuser/.config/opencode"},
+            # VS Code's own server volume. In Dev Containers image mode VS Code installs
+            # its server there and symlinks it from ~/.vscode-server/bin (a shared
+            # volume), so it must be mounted here too or those symlinks dangle and
+            # "Attach to Running Container" fails.
+            {"type": "volume", "src": "vscode", "dst": "/vscode"},
         )
         check_cmd = (
             self.container_cmd,
             "run",
-            "--remove",
+            "--rm",
             "--user=0",
             "--entrypoint=chown",
             *(f"--mount=type={x['type']},src={x['src']},dst={x['dst']}" for x in mounts),
@@ -103,7 +108,7 @@ class CLIApp:
             self.container_cmd,
             "run",
             "--detach",
-            "--remove",
+            "--rm",
             f"--name={self.container_name}",
             # "--restart=unless-stopped",
             "--publish=127.0.0.1:1337:1337",
@@ -111,6 +116,7 @@ class CLIApp:
             *(f"--publish=127.0.0.1:{x}:{x}" for x in auto_expose_ports),
             *(f"--mount=type={x['type']},src={x['src']},dst={x['dst']}" for x in mounts),
             f"--mount=type=bind,src={USER_HOME}/.config/mise/conf.d,dst=/home/devuser/.config/mise/conf.d,readonly",
+            f"--mount=type=bind,src={USER_HOME}/dev,dst=/home/devuser/dev",
             *(() if not devcon_services else (f"--env=DEVCON_SERVICES={devcon_services}",)),
             "--memory=4G",
             image_name,
