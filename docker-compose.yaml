@@ -1,0 +1,94 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-go/master/schema/compose-spec.json
+---
+services:
+  debian-13-slim:
+    image: ai-workspace:debian-13-slim
+    build:
+      context: .
+      args:
+        BASE_IMAGE: debian:13-slim
+    ports:
+      - 1337:1337
+
+  debian-12-slim:
+    image: ai-workspace:debian-12-slim
+    build:
+      context: .
+      args:
+        BASE_IMAGE: debian:12-slim
+    ports:
+      - 1338:1337
+
+  ubuntu-24-04:
+    image: ai-workspace:ubuntu-24-04
+    build:
+      context: .
+      args:
+        BASE_IMAGE: ubuntu:24.04
+    ports:
+      - 1339:1337
+
+  ubuntu-22-04:
+    image: ai-workspace:ubuntu-22-04
+    build:
+      context: .
+      args:
+        BASE_IMAGE: ubuntu:22.04
+    ports:
+      - 1340:1337
+
+  amazonlinux-2023:
+    image: ai-workspace:amazonlinux-2023
+    build:
+      context: .
+      args:
+        BASE_IMAGE: amazonlinux:2023
+    ports:
+      - 1341:1337
+
+  wolfi:
+    image: devcon:latest
+    container_name: devcon
+    build:
+      context: images/wolfi
+    restart: unless-stopped
+    # environment:
+    #   DEVCON_SERVICES: "vscode zellij"
+    ports:
+      - 127.0.0.1:1337:1337
+      - 127.0.0.1:8082:8082
+    # Same volumes as the image's devcontainer.metadata label (images/wolfi/Dockerfile).
+    volumes:
+      - devcon-vscode:/home/devuser/.vscode
+      - devcon-vscode-server:/home/devuser/.vscode-server
+      - devcon-zellij:/home/devuser/.local/share/zellij
+      - devcon-zellij-config:/home/devuser/.config/zellij
+      - devcon-mise:/home/devuser/.local/share/mise
+      - devcon-mise-state:/home/devuser/.local/state/mise
+      - devcon-mise-config:/home/devuser/.config/mise
+      # Host-wide mise config shared with every machine (see images/wolfi/README.md).
+      - ~/.config/mise/conf.d:/home/devuser/.config/mise/conf.d:ro
+      - devcon-dev:/home/devuser/dev
+      - devcon-claude:/home/devuser/.claude
+      - devcon-opencode:/home/devuser/.local/share/opencode
+      - devcon-opencode-config:/home/devuser/.config/opencode
+      # VS Code's own server volume: the shared ~/.vscode-server/bin holds
+      # symlinks into it (from Dev Containers image mode), needed to attach.
+      - vscode:/vscode
+
+# Explicit `name:` (key repeated) because compose otherwise prefixes the project
+# name (ai-workspace_devcon-...); Dev Containers using the image mount these
+# exact names.
+volumes:
+  devcon-vscode: { name: devcon-vscode }
+  devcon-vscode-server: { name: devcon-vscode-server }
+  devcon-zellij: { name: devcon-zellij }
+  devcon-zellij-config: { name: devcon-zellij-config }
+  devcon-mise: { name: devcon-mise }
+  devcon-mise-state: { name: devcon-mise-state }
+  devcon-mise-config: { name: devcon-mise-config }
+  devcon-dev: { name: devcon-dev }
+  devcon-claude: { name: devcon-claude }
+  devcon-opencode: { name: devcon-opencode }
+  devcon-opencode-config: { name: devcon-opencode-config }
+  vscode: { name: vscode }

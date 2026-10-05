@@ -1,0 +1,4 @@
+[lint]
+# Third-party repos (git submodules). `shuck check` still walks into them
+# (excludes are CLI-only: --extend-exclude), but doesn't report anything.
+per-file-ignores = { "external/**" = ["ALL"] }

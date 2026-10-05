@@ -1,0 +1,5 @@
+#:schema https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/rumdl.json
+
+[global]
+# Third-party repos (git submodules).
+exclude = ["external/**"]

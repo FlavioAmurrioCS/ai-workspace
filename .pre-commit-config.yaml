@@ -1,0 +1,46 @@
+# yaml-language-server: $schema=https://www.schemastore.org/pre-commit-config.json
+---
+exclude: ^styles/(Google|write-good|proselint|ai-tells|ai-tells-commits)/
+repos:
+  - repo: https://github.com/FlavioAmurrioCS/system-hooks
+    rev: v2026.09.29 # Run `pre-commit autoupdate` to get the latest
+    hooks:
+      - id: ruff-check
+      - id: ruff-format
+      - id: ty
+      - id: oxfmt
+      - id: oxlint
+      - id: actionlint
+      - id: zizmor
+      - id: shfmt
+      - id: bash-syntax-check
+      - id: oxfmt-yaml
+      - id: oxfmt-json
+      - id: shellcheck
+      - id: shuck
+      - id: dockerfmt
+      - id: hadolint
+      - id: rumdl-fmt
+      - id: rumdl-check
+      - id: mado
+      - id: vale
+      - id: vale-commit-msg
+      - id: tombi-format
+      - id: tombi-lint
+      - id: ryl
+      - id: ryl-markdown
+      # - id: sourcemeta-jsonschema-lint
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+      - id: name-tests-test
+      # - id: check-jsonschema
+      # - id: check-metaschema
+      - id: pip-compile
+      - id: uv-lock
+      - id: uv-export
+      - id: uv-sync
+      - id: uv-audit
+      # - id: uv-to-pipfile
+      - id: renovate-config-validator

@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+# Container entry command: install mise tools, run the pitchfork supervisor, and
+# start the pitchfork groups listed in $DEVCON_SERVICES (e.g. "vscode zellij").
+set -euo pipefail
+
+# On a stop signal, forward it to the supervisor and stop starting anything new;
+# the wait loop at the end lets it shut its daemons down before we exit.
+supervisor_pid=""
+stopping=0
+# shellcheck disable=SC2329
+on_stop() {
+    stopping=1
+    if [ -z "${supervisor_pid}" ]; then
+        exit 143
+    fi
+    kill -TERM "${supervisor_pid}" 2> /dev/null || true
+}
+trap on_stop TERM INT
+
+# A persisted ~/.local/share/mise volume may predate this image's tool versions,
+# and pitchfork's daemons run through its shims.
+mise install --yes
+
+# `--force`: any pitchfork CLI call during the install above auto-starts a
+# supervisor; replace it rather than exiting.
+pitchfork supervisor run --force &
+supervisor_pid=$!
+
+until [ "${stopping}" = 1 ] || pitchfork supervisor status > /dev/null 2>&1; do
+    kill -0 "${supervisor_pid}" 2> /dev/null || break
+    sleep 0.2
+done
+
+# Skip once stopping or if the supervisor died: `pitchfork start` would
+# otherwise auto-start a new, unmanaged one.
+for group in ${DEVCON_SERVICES:-}; do
+    if [ "${stopping}" = 1 ] || ! kill -0 "${supervisor_pid}" 2> /dev/null; then
+        break
+    fi
+    pitchfork start --group "${group}" ||
+        echo "devcon-start: failed to start group '${group}'" >&2
+done
+
+# `wait` returns early when a trapped signal arrives; loop until it has exited.
+while :; do
+    if wait "${supervisor_pid}"; then status=0; else status=$?; fi
+    kill -0 "${supervisor_pid}" 2> /dev/null || break
+done
+exit "${status}"

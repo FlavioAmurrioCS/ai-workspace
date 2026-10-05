@@ -1,0 +1,39 @@
+#:schema https://www.schemastore.org/ryl.json
+# .ryl.toml, tuned for Prettier
+
+# Third-party content (submodules, vendored Vale styles).
+ignore = ["external/", "styles/"]
+
+[rules]
+brackets = "enable"
+colons = "enable"
+commas = "enable"
+comments-indentation = "enable"
+hyphens = "enable"
+new-line-at-end-of-file = "enable"
+trailing-spaces = "enable"
+
+[rules.braces]
+min-spaces-inside = 1  # Prettier pads `{ a: 1 }`
+max-spaces-inside = 1
+min-spaces-inside-empty = 0  # but keeps an empty `{}` tight
+max-spaces-inside-empty = 0
+
+[rules.comments]
+min-spaces-from-content = 1  # Prettier uses one space before inline comments
+
+[rules.new-lines]
+type = "unix"
+
+[rules.empty-lines]
+max = 2
+
+[rules.indentation]
+spaces = 2
+indent-sequences = true
+
+[rules.quoted-strings]
+required = "only-when-needed"
+
+[rules.line-length]
+max = 150
